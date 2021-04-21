@@ -10,6 +10,7 @@ ifeq ($(DEBUG),yes)
 endif
 
 $(EXEC) : ./obj/$(OBJS)
+	mkdir -p bin obj inc
 	@$(CC) $(CFLAGS) $^ -o ./bin/$@
 	@mv *.o ./obj
 

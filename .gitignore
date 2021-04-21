@@ -1,2 +1,4 @@
-bin/*
-obj/*
+
+*.o
+Project
+ProjectV1.0
