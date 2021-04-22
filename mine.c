@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
+#include <math.h>
 
+#include "queue.h"
 #include "BlockChain.h"
 #include "transaction.h"
 #include "sha256.h"
@@ -58,15 +60,25 @@ void mineBlock(Block *block){
     createHash(block);
   } while(verifieHash(block->hash,DIFICULTY));
 }
-
-void calculMarkelTree(Block *block){
-  Transaction *t[TRANSACTION_MAX];
-  char *item = malloc(sizeof(TRANSACTION_SIZE)*TRANSACTION_MAX);
-  if (block->nbrTransaction%2 != 0{
-    srtcat(t[TRANSACTION_MAX-1],block->transaction[TRANSACTION_MAX-1]);
-  }
-  for(int i = 0; i < TRANSACTION_MAX-1; i++){
-
-  }
-
-}
+//
+// int calculMarkelTree(Block *block){
+//   Queue *q;
+//   int i = block->nbrTransaction;
+//   q = createQueue();
+//   if ((int)sqrt(block->nbrTransaction)%2 > 0){
+//     while((int)sqrt(i)%2 > 0){
+//       i++;
+//     }
+//   }
+//   char *transactionList[i];
+//   for(int k = 0; k < block->nbrTransaction; k++){
+//     strcpy(transactionList[k],(block->transaction[k]));
+//   }
+//   if ((int)sqrt(block->nbrTransaction)%2 > 0){
+//     for(int k = block->nbrTransaction-1; k < i; k++){
+//       strcpy(transactionList[k],*(block->transaction[block->nbrTransaction-1]));
+//     }
+//   }
+//   deleteQueue(&q);
+//   return i;
+// }

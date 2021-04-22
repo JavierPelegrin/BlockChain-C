@@ -98,6 +98,7 @@ int blockchainSize(BlockChain *blockChain){
   return blockChain->block[blockChain->size-1].nbrTransaction;
 }
 char *blockHash(BlockChain *blockChain){
+  // printf("%d\n", calculMarkelTree(&(blockChain->block[blockChain->size-1])));
   printf("%ld\n", blockChain->block[blockChain->size-1].nonce);
   return blockChain->block[blockChain->size-1].hash;
 }
