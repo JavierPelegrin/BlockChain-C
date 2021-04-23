@@ -1,13 +1,13 @@
-#BlockChain et simulation de transactions en C
+# BlockChain et simulation de transactions en C
 Ce projet est enconre en developement. Ceci est un projet pour l'UT3 du grupe 26.
-##Instalation
+## Instalation
 Ce projet est developer entierment en C.
 ```
 $ git clone https://github.com/JavierPelegrin/BlockChain-C.git
 ```
 le repertoire télechargé contien un `makefile` et donc  en executent la commande `make` le code sera compilé.
 Un binaire executable est donc generé dans le répértoire `bin/` et appelé `Projet`.
-##Execution (En developent)
+## Execution (En developent)
 Le programe poura prendre en parametre:
 - La dificulé avec l'option `-d`
 - Le nombre de block avec l'option `-n`
@@ -18,11 +18,11 @@ Si le programe est appelé sans options les paramétres par défeaux seront:
 - Nombre de block 1000
 - Nombre max de transaction 5
 
-####Exemple pour effectuer une execution
+#### Exemple pour effectuer une execution
 ```
 $ ./bin/Projet -d 7 -n 50 -t 12
 ```
-##Test d'execution
+## Test d'execution
 Après une execution sans paramétres on reçois sur le terminal :
 ```
 This is transaction 0 : Source CoinBase-Destination Creator, quantite: 50bnb
@@ -58,5 +58,5 @@ Après la transaction on trouve le nonce, ce nombre est un `long int` qui est ut
 
 La derniere information es le index du block puis le hash du block qui satifais bien la dificulté par defaux de 4.
 
-##Auteurs du projet
+## Auteurs du projet
 - **Javier Pelegrin Garcia** - développeur  - Documentation
