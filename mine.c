@@ -22,8 +22,8 @@ void calculHash(char hash[SHA256_BLOCK_SIZE*2+1], char *infos){
 
 void createHash(Block *block){
   char *item, *nbrTransaction, *nonce, *index;
-  item = malloc(sizeof(Block)*sizeof(char));
-	nbrTransaction = malloc(sizeof(int));
+  item = malloc(sizeof(Block)*sizeof(char)+(sizeof(TurnChar(block->transaction,0)) * block->nbrTransaction));
+  nbrTransaction = malloc(sizeof(int));
   nonce = malloc(sizeof(int));
   index = malloc(sizeof(int));
 
@@ -38,7 +38,6 @@ void createHash(Block *block){
     strcat(item,TurnChar(block->transaction, i));
   }
   sha256ofString((BYTE *)item,block->hash);
-
   free(item);free(nbrTransaction);free(nonce);free(index);
 }
 
@@ -60,25 +59,62 @@ void mineBlock(Block *block){
     createHash(block);
   } while(verifieHash(block->hash,DIFICULTY));
 }
-//
-// int calculMarkelTree(Block *block){
-//   Queue *q;
-//   int i = block->nbrTransaction;
-//   q = createQueue();
-//   if ((int)sqrt(block->nbrTransaction)%2 > 0){
-//     while((int)sqrt(i)%2 > 0){
-//       i++;
-//     }
-//   }
-//   char *transactionList[i];
-//   for(int k = 0; k < block->nbrTransaction; k++){
-//     strcpy(transactionList[k],(block->transaction[k]));
-//   }
-//   if ((int)sqrt(block->nbrTransaction)%2 > 0){
-//     for(int k = block->nbrTransaction-1; k < i; k++){
-//       strcpy(transactionList[k],*(block->transaction[block->nbrTransaction-1]));
-//     }
-//   }
-//   deleteQueue(&q);
-//   return i;
-// }
+
+char *calculMarkelTree(char **transactionList, int imaxl, int il, Queue *q, int imaxq, int iq){
+  char *skt = malloc(sizeof(transactionList[0])*2);
+  if (il < imaxl-1){
+    strcpy(skt,transactionList[il]);
+    strcpy(skt,transactionList[il+1]);
+    calculHash(skt,skt);
+    printf("esto esta aquiii%s\n",skt);
+    q = queuePush(q,skt);
+    free(skt);
+    return calculMarkelTree(transactionList, imaxl, il+2, q, imaxq, iq);
+  }else if (queueSize(q) > 1){
+    char *top1 = malloc(sizeof(transactionList[0]));
+    strcpy(top1,queueTop(q));
+    q = queuePop(q);
+
+    char *top2 = malloc(sizeof(transactionList[0]));
+    strcpy(top2,queueTop(q));
+    q = queuePop(q);
+    strcpy(skt,top1);
+    strcpy(skt,top2);
+    calculHash(skt,skt);
+    q = queuePush(q,skt);
+    free(skt);
+    free(top1);
+    free(top2);
+    return calculMarkelTree(transactionList, imaxl, il, q, imaxq, iq+2);
+  }
+  return "Error";
+}
+
+char *calculMarkelRoot(Block *block){
+  Queue *q;
+  int i = block->nbrTransaction;
+  q = createQueue();
+  if (fmod(sqrt(block->nbrTransaction),2) > 0 && block->nbrTransaction != 2){
+    while(fmod(sqrt(i),2) > 0){
+      i++;
+    }
+  }
+  char *transactionList[i];
+  for(int k = 0; k < block->nbrTransaction; k++){
+    transactionList[k] = malloc(sizeof(char)*TRANSACTION_SIZE);
+    strcpy(transactionList[k], TurnChar(block->transaction,k));
+  }
+  if (fmod(sqrt(block->nbrTransaction),2) > 0  && block->nbrTransaction != 2){
+    for(int k = block->nbrTransaction-1; k < i; k++){
+      transactionList[k] = malloc(sizeof(char)*TRANSACTION_SIZE);
+      strcpy(transactionList[k],TurnChar(block->transaction,block->nbrTransaction-1));
+    }
+  }
+
+  printf("esto es merkel directo de la funcion: %s\n", calculMarkelTree(transactionList,i,0,q,(i+(i%2))/2,0));
+  deleteQueue(&q);
+  for (int k = 0; k < i; k++){
+    free(transactionList[k]);
+  }
+  return calculMarkelTree(transactionList,i,0,q,(i+(i%2))/2,0);
+}

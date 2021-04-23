@@ -15,6 +15,6 @@ bool verifieHash(char *hash, int d);
 
 void mineBlock(Block *block);
 
-// int calculMarkelTree(Block *block);
+char *calculMarkelRoot(Block *block);
 
 #endif

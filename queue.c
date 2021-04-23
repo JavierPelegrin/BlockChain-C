@@ -10,17 +10,19 @@
 #include "queue.h"
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
+#include "sha256.h"
 
 /* Full definition of the queue structure */
 typedef struct s_internalQueue {
-    char * value;
+    char value[SHA256_BLOCK_SIZE*2+1];
     struct s_internalQueue *next;
 } InternalQueue;
 
 struct s_queue {
     InternalQueue *head;
     InternalQueue *tail;
-    unsigned int size;
+    int size;
 };
 
 Queue *createQueue() {
@@ -42,11 +44,17 @@ void deleteQueue(ptrQueue *q) {
 }
 
 Queue *queuePush(Queue *q, char *v) {
-    InternalQueue **insert_at = (q->size ? &(q->tail->next) : &(q->head));
-    InternalQueue *new = malloc(sizeof(InternalQueue));
-    new->value = v;
-    new->next = NULL;
-    *insert_at = new;
+    // InternalQueue **insert_at = (q->size ? &(q->tail->next) : &(q->head));
+    InternalQueue *new = malloc(sizeof(InternalQueue)+SHA256_BLOCK_SIZE*2+1);
+    if (q->size == 0){
+      strcpy((new->value),v);
+      new->next = NULL;
+      q->head = new;
+    }else{
+      strcpy((new->value),v);
+      new->next = NULL;
+      q->tail->next = new;
+    }
     q->tail = new;
     ++(q->size);
     return (q);
@@ -54,10 +62,8 @@ Queue *queuePush(Queue *q, char *v) {
 
 Queue *queuePop(Queue *q) {
     assert (!queueEmpty(q));
-    InternalQueue *old = q->head;
     q->head = q->head->next;
     q->size--;
-    free(old);
     return (q);
 }
 

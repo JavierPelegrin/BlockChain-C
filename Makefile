@@ -2,7 +2,7 @@ CC=gcc
 EXEC=Project
 OBJS=main.o BlockChain.o sha256.o sha256_utils.o mine.o transaction.o queue.o
 INCS=./inc
-CFLAGS=-std=c99 -lm -Wextra -Wall -Werror -pedantic -I$(INCS)
+CFLAGS=-std=c99 -lm -Wextra -Wall  -pedantic -I$(INCS)
 
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g
@@ -10,7 +10,7 @@ ifeq ($(DEBUG),yes)
 endif
 
 $(EXEC) : ./obj/$(OBJS)
-	mkdir -p bin obj inc
+	@mkdir -p bin obj
 	@$(CC) $(CFLAGS) $^ -o ./bin/$@
 	@mv *.o ./obj
 
