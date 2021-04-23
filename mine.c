@@ -93,9 +93,11 @@ char *calculMarkelTree(char **transactionList, int imaxl, int il, Queue *q, int 
 char *calculMarkelRoot(Block *block){
   Queue *q;
   int i = block->nbrTransaction;
+  double buff;
   q = createQueue();
-  if (fmod(sqrt(block->nbrTransaction),2) > 0 && block->nbrTransaction != 2){
-    while(fmod(sqrt(i),2) > 0){
+  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0){ // logaritomo de base 2
+    printf("es qui donde me petoo hermaaano\n" );
+    while (modf(log(i)/log(2),&buff) > 0){ // logaritomo de base 2
       i++;
     }
   }
@@ -104,7 +106,7 @@ char *calculMarkelRoot(Block *block){
     transactionList[k] = malloc(sizeof(char)*TRANSACTION_SIZE);
     strcpy(transactionList[k], TurnChar(block->transaction,k));
   }
-  if (fmod(sqrt(block->nbrTransaction),2) > 0  && block->nbrTransaction != 2){
+  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0){ // logaritomo de base 2
     for(int k = block->nbrTransaction-1; k < i; k++){
       transactionList[k] = malloc(sizeof(char)*TRANSACTION_SIZE);
       strcpy(transactionList[k],TurnChar(block->transaction,block->nbrTransaction-1));
