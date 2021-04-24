@@ -14,6 +14,8 @@ bool verifieHash(char *hash, int d);
 
 void mineBlock(Block *block, int Dificulty);
 
+// void testMerkleTreeFunction();
+
 char *calculmerkleRoot(Block *block);
 
 #endif

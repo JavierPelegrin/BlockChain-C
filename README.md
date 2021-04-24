@@ -77,23 +77,23 @@ This is transaction 3 : Source user69-Destination user67, quantite: 44bnb
 ....
 ```
 
-Cela est les informations plus importantes d'un block.
+Ceci sont les informations plus importantes d'un block.
 
 En premier lieu :
 
 - les transaction de 1 à 5 sauf pour la première transaction, celle de la coinBase vers le Creator
 
-- les user sont choisi au hasard entre 0 et 99
+- les user sont choisis au hasard entre 0 et 99
 
 - le montant est aussi choisi au hasard entre 1 et 50.
 
-Après on touve le merkleRoot qui est calculer avec des arbres équilibrés:
+Après on touve le merkleRoot qui est calculé avec des arbres équilibrés:
 
 Si l'on commance avec `n` transaction le programme verifiera si `n` est égale à `2^x` avec le logarithme en base 2 et donc ajoutera les transaction nesesaires pour que `n = 2^x`
 
-Après le merkleRoot on trouve le nonce, ce nombre est un `long int` qui est utilisé pour que le hash256 satisfait la difficulté de la blockchain.
+Après le merkleRoot on trouve le `nonce`, ce nombre est un `long int` qui est utilisé pour que le `hash256` satisfait la difficulté de la blockchain.
 
-La dernière information est le index du block puis le hash du block qui satisfais bien la dificulté par défaut de 4.
+La dernière information est le `index` du block puis le `hash256` du block qui satisfait bien la dificulté par défaut de 4.
 
 
 

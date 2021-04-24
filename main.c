@@ -28,9 +28,7 @@ int main(int argc, char **argv){
   d = 4;
   n = 1000;
   t = 5;
-  for (int i = 0;i < argc; i++){
-    printf("argv[%d] : \'%s\' \n",i,argv[i]);
-  }
+  // testMerkleTreeFunction();
   if(argc > 1){
     if (argc%2 == 0 && argc != 0){
       fprintf(stderr, "Error: %s [OPTION] [INTEGER]\n",argv[0]);
@@ -51,7 +49,6 @@ int main(int argc, char **argv){
       if (strcmp(argv[3],"-d") == 0){
         d = atoi(argv[4]);
       }else if (strcmp(argv[3],"-n") == 0){
-        printf("cambio n en 3\n");
         n = atoi(argv[4]);
       }else if (strcmp(argv[3],"-t") == 0){
         t = atoi(argv[4]);
