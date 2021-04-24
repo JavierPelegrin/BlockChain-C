@@ -89,15 +89,9 @@ En premier lieu :
 
 Après on touve le merkleRoot qui est calculer avec des arbres équilibrés:
 
-Si l'on commance avec `n` transaction le programme verifiera si `n` est égale à `$$2^x$$`  
+Si l'on commance avec `n` transaction le programme verifiera si `n` est égale à `2^x` avec le logarithme en base 2 et donc ajoutera les transaction nesesaires pour que `n = 2^x`
 
-
-
-
-
-Après la transaction on trouve le nonce, ce nombre est un `long int` qui est utilisé pour que le hash256 satisfait la difficulté de la blockchain.
-
-
+Après le merkleRoot on trouve le nonce, ce nombre est un `long int` qui est utilisé pour que le hash256 satisfait la difficulté de la blockchain.
 
 La dernière information est le index du block puis le hash du block qui satisfais bien la dificulté par défaut de 4.
 
