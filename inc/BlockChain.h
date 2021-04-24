@@ -32,6 +32,8 @@ int blockchainSize(BlockChain *blockChain);
 
 char *blockHash(BlockChain *blockChain);
 
+char *BlockMerkleRoot(BlockChain *blockChain);
+
 char *BlockTransaction(BlockChain *blockChain, int i);
 
 #endif

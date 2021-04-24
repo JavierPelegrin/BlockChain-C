@@ -14,7 +14,7 @@ typedef struct s_Block {
   char hashPrev[SHA256_BLOCK_SIZE*2+1];
   int nbrTransaction;
   Transaction *transaction[TRANSACTION_MAX];
-  char markleTree[SHA256_BLOCK_SIZE*2+1];
+  char merkleRoot[SHA256_BLOCK_SIZE*2+1];
   char hash[SHA256_BLOCK_SIZE*2+1];
   long int nonce;
 } Block;

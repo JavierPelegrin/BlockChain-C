@@ -44,9 +44,9 @@ BlockChain *createBlockChain(){
   block.nbrTransaction = (rand() % TRANSACTION_MAX)+1;
   createGenesisT(&block);
   createNTransaction(&block);
+  strcpy(block.merkleRoot,calculmerkleRoot(&block));
   mineBlock(&block);
   strcpy(block.hashPrev,block.hash);
-  strcpy(block.markleTree,block.hash);
   blockChain->block[0] = block;
   return blockChain;
 }
@@ -66,7 +66,7 @@ void createBlock(BlockChain *blockChain){
   block.nbrTransaction = (rand() % TRANSACTION_MAX)+1;
   strcpy(block.hashPrev, lastBlock.hash);
   createNTransaction(&block);
-  sha256ofString((BYTE *)lastBlock.markleTree,block.markleTree);
+  strcpy(block.merkleRoot,calculmerkleRoot(&block));
   mineBlock(&block);
   blockChain->block[block.index] = block;
 }
@@ -97,11 +97,16 @@ Block blockFirst(BlockChain *blockChain){
 int blockchainSize(BlockChain *blockChain){
   return blockChain->block[blockChain->size-1].nbrTransaction;
 }
+
 char *blockHash(BlockChain *blockChain){
-  // printf("este es el numero de merkleTree : %s\n", calculMarkelRoot(&(blockChain->block[blockChain->size-1])));
-  printf("%ld\n", blockChain->block[blockChain->size-1].nonce);
+  printf("This is nonce number: %ld\n", blockChain->block[blockChain->size-1].nonce);
   return blockChain->block[blockChain->size-1].hash;
 }
+
+char *BlockMerkleRoot(BlockChain *blockChain){
+  return blockChain->block[blockChain->size-1].merkleRoot;
+}
+
 char *BlockTransaction(BlockChain *blockChain, int i){
   return TurnChar(blockChain->block[blockChain->size-1].transaction,i);
 }

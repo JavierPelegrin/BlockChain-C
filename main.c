@@ -32,6 +32,7 @@ int main(){
   for(int k = 0; k < blockchainSize(f); k++){
     printf("This is transaction %d : %s\n", k, BlockTransaction(f,k));
   }
+  printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
   printf("Block Genesis: %s\n\n", blockHash(f));
 
   for(i = 0; i < 1000; i++){
@@ -39,6 +40,7 @@ int main(){
     for(int k = 0; k < blockchainSize(f); k++){
       printf("This is transaction %d : %s\n", k+1, BlockTransaction(f,k));
     }
+    printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
     printf("Block %d: %s\n\n",i,blockHash(f));
   }
   return 0;

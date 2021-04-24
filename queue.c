@@ -20,20 +20,19 @@ typedef struct s_internalQueue {
 } InternalQueue;
 
 struct s_queue {
-    InternalQueue *head;
-    InternalQueue *tail;
+    InternalQueue *top;
     int size;
 };
 
 Queue *createQueue() {
     Queue *q = malloc(sizeof(Queue));
-    q->head = q->tail = NULL;
+    q->top = NULL;
     q->size = 0;
     return (q);
 }
 
 void deleteQueue(ptrQueue *q) {
-    InternalQueue *toDelete = (*q)->head;
+    InternalQueue *toDelete = (*q)->top;
     while (toDelete) {
         InternalQueue *f = toDelete;
         toDelete = toDelete->next;
@@ -44,32 +43,24 @@ void deleteQueue(ptrQueue *q) {
 }
 
 Queue *queuePush(Queue *q, char *v) {
-    // InternalQueue **insert_at = (q->size ? &(q->tail->next) : &(q->head));
-    InternalQueue *new = malloc(sizeof(InternalQueue)+SHA256_BLOCK_SIZE*2+1);
-    if (q->size == 0){
-      strcpy((new->value),v);
-      new->next = NULL;
-      q->head = new;
-    }else{
-      strcpy((new->value),v);
-      new->next = NULL;
-      q->tail->next = new;
-    }
-    q->tail = new;
+    InternalQueue *new = malloc(sizeof(InternalQueue));
+    strcpy(new->value,v);
+    new->next = q->top;
+    q->top = new;
     ++(q->size);
     return (q);
 }
 
 Queue *queuePop(Queue *q) {
     assert (!queueEmpty(q));
-    q->head = q->head->next;
+    q->top = q->top->next;
     q->size--;
     return (q);
 }
 
 char *queueTop(Queue *q) {
     assert (!queueEmpty(q));
-    return (q->head->value);
+    return (q->top->value);
 }
 
 bool queueEmpty(Queue *q) {
