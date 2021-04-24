@@ -26,7 +26,7 @@ int main(int argc, char **argv){
   BlockChain *f;
   int d, n, t;
   d = 4;
-  n = 50;
+  n = 1000;
   t = 5;
   for (int i = 0;i < argc; i++){
     printf("argv[%d] : \'%s\' \n",i,argv[i]);
