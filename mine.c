@@ -22,7 +22,7 @@ void calculHash(char hash[SHA256_BLOCK_SIZE*2+1], char *infos){
 
 void createHash(Block *block){
   char *item, *nbrTransaction, *nonce, *index;
-  item = malloc(sizeof(Block)*sizeof(char)+(sizeof(TurnChar(block->transaction,0)) * block->nbrTransaction));
+  item = malloc(sizeof(Block)*sizeof(char)+(TRANSACTION_SIZE * block->nbrTransaction));
   nbrTransaction = malloc(sizeof(int));
   nonce = malloc(sizeof(int));
   index = malloc(sizeof(int));
@@ -53,12 +53,12 @@ bool verifieHash(char *hash, int d){
   return strcmp(at,Dificulty);
 }
 
-void mineBlock(Block *block){
+void mineBlock(Block *block, int Dificulty){
   block->nonce = -1;
   do {
     block->nonce++;
     createHash(block);
-  } while(verifieHash(block->hash,DIFICULTY));
+  } while(verifieHash(block->hash,Dificulty));
 }
 
 char *calculmarkleTree(char **transactionList, int imaxl, int il, Queue *q){

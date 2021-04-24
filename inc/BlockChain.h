@@ -10,16 +10,15 @@
 #include "sha256_utils.h"
 #include "transaction.h"
 
-#define DIFICULTY 4
-#define BLOCKCHAIN_SIZE_MAX 1000
+#define BLOCKCHAIN_SIZE_MAX 10000
 
 typedef struct s_BlockChain BlockChain;
 
 char * getTimeStamp();
 
-BlockChain *createBlockChain();
+BlockChain *createBlockChain(int Dificulty, int nbrTransactionMax);
 
-void createBlock(BlockChain *blockChain);
+void createBlock(BlockChain *blockChain, int nbrTransactionMax);
 
 /*
   pas fait encore

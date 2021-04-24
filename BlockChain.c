@@ -34,18 +34,19 @@ char *getTimeStamp(){
    \post "le hash du block a un nombre de 0 au debut egale a DIFICULTY"
    \return "Structure BlockChain avec premier block genesis"
 */
-BlockChain *createBlockChain(){
+BlockChain *createBlockChain(int Dificulty,int nbrTransactionMax){
   BlockChain *blockChain = malloc(sizeof(BlockChain));
   Block block;
-  blockChain->Dificulty = DIFICULTY;
+  blockChain->Dificulty = Dificulty;
   blockChain->size = 1;
   block.index = 0;
   block.timestamp = getTimeStamp();
-  block.nbrTransaction = (rand() % TRANSACTION_MAX)+1;
+  block.nbrTransaction = (rand() % nbrTransactionMax)+1;
+  block.transaction = malloc(nbrTransactionMax);
   createGenesisT(&block);
   createNTransaction(&block);
   strcpy(block.merkleRoot,calculmerkleRoot(&block));
-  mineBlock(&block);
+  mineBlock(&block,blockChain->Dificulty);
   strcpy(block.hashPrev,block.hash);
   blockChain->block[0] = block;
   return blockChain;
@@ -57,17 +58,18 @@ BlockChain *createBlockChain(){
    \param "BlockChain"
    \post "le hash du block a un nombre de 0 au debut egale a DIFICULTY"
 */
-void createBlock(BlockChain *blockChain){
+void createBlock(BlockChain *blockChain, int nbrTransactionMax){
   Block block, lastBlock;
   lastBlock = blockFirst(blockChain);
   block.index = blockChain->size;
   blockChain->size++;
   block.timestamp = getTimeStamp();
-  block.nbrTransaction = (rand() % TRANSACTION_MAX)+1;
+  block.nbrTransaction = (rand() % nbrTransactionMax)+1;
   strcpy(block.hashPrev, lastBlock.hash);
+  block.transaction = malloc(nbrTransactionMax);
   createNTransaction(&block);
   strcpy(block.merkleRoot,calculmerkleRoot(&block));
-  mineBlock(&block);
+  mineBlock(&block,blockChain->Dificulty);
   blockChain->block[block.index] = block;
 }
 

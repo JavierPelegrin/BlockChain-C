@@ -4,7 +4,6 @@
 #include "sha256_utils.h"
 
 #define TRANSACTION_SIZE 53
-#define TRANSACTION_MAX 5
 
 typedef struct s_Transaction Transaction;
 
@@ -13,7 +12,7 @@ typedef struct s_Block {
   char *timestamp;
   char hashPrev[SHA256_BLOCK_SIZE*2+1];
   int nbrTransaction;
-  Transaction *transaction[TRANSACTION_MAX];
+  Transaction **transaction;
   char merkleRoot[SHA256_BLOCK_SIZE*2+1];
   char hash[SHA256_BLOCK_SIZE*2+1];
   long int nonce;

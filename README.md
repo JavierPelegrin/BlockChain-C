@@ -14,7 +14,7 @@ Le répertoire téléchargé contient un `makefile` et donc en exécutent la com
 
 Un binaire exécutable est donc généré dans le répertoire `bin/` et appelé `Projet`.
 
-## Exécution (En développent)
+## Exécution
 
 Le programme pourra prendre en paramètre :
 

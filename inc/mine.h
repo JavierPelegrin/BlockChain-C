@@ -12,7 +12,7 @@ void createHash(Block *block);
 
 bool verifieHash(char *hash, int d);
 
-void mineBlock(Block *block);
+void mineBlock(Block *block, int Dificulty);
 
 char *calculmerkleRoot(Block *block);
 
