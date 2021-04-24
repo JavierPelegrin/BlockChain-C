@@ -3,7 +3,7 @@
 
 #include "sha256_utils.h"
 
-#define TRANSACTION_SIZE 60
+#define TRANSACTION_SIZE 53
 #define TRANSACTION_MAX 5
 
 typedef struct s_Transaction Transaction;

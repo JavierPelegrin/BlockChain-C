@@ -5,7 +5,6 @@
 #include "sha256_utils.h"
 #include "transaction.h"
 #include "BlockChain.h"
-#include "miner.h"
 
 void calculHash(char hash[SHA256_BLOCK_SIZE*2+1], char *infos);
 

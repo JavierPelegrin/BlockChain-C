@@ -61,29 +61,22 @@ void mineBlock(Block *block){
   } while(verifieHash(block->hash,DIFICULTY));
 }
 
-char *calculmarkleTree(char (*transactionList)[TRANSACTION_SIZE], int imaxl, int il, Queue *q, int imaxq, int iq){
+char *calculmarkleTree(char **transactionList, int imaxl, int il, Queue *q){
   char skt[(SHA256_BLOCK_SIZE*2+1)*2];
   if (il < imaxl-1){
     strcpy(skt,transactionList[il]);
     strcpy(skt,transactionList[il+1]);
     calculHash(skt,skt);
     q = queuePush(q,skt);
-    return calculmarkleTree(transactionList, imaxl, il+2, q, imaxq, iq);
+    return calculmarkleTree(transactionList, imaxl, il+2, q);
   }else if (queueSize(q) > 1){
-    // char top1[SHA256_BLOCK_SIZE*2+1];
-    // char top2[SHA256_BLOCK_SIZE*2+1];
-    //strcpy(skt,queueTop(q));
-    // printf("%d :Estoy aqui llamondo a pop helo, %s\n", queueSize(q),top1 );
     strcpy(skt,queueTop(q));
     q = queuePop(q);
-    // printf("Estoy aqui llamondo a pop helo, %s\n", top2 );
-
+    strcpy(skt,queueTop(q));
     q = queuePop(q);
-    // strcpy(skt,top1);
-    // strcpy(skt,top2);
     calculHash(skt,skt);
     q = queuePush(q,skt);
-    return calculmarkleTree(transactionList, imaxl, il, q, imaxq, iq+2);
+    return calculmarkleTree(transactionList, imaxl, il, q);
   }
   return queueTop(q);
 }
@@ -99,17 +92,24 @@ char *calculmerkleRoot(Block *block){
       i++;
     }
   }
-  char transactionList[i][TRANSACTION_SIZE];
-  for(int k = 0; k < block->nbrTransaction; k++){
-    strcpy(transactionList[k], TurnChar(block->transaction,k));
+  if(block->nbrTransaction == 1){
+    i = 2;
   }
-  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0){ // logaritomo de base 2
+  char *transactionList[i];
+  for(int k = 0; k < block->nbrTransaction; k++){
+    transactionList[k] = malloc(sizeof(char)*(SHA256_BLOCK_SIZE*2+1));
+    strcpy(transactionList[k], TurnChar(block->transaction,k));
+    calculHash(transactionList[k],transactionList[k]);
+  }
+  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0 || block->nbrTransaction == 1){ // logaritomo de base 2
     for(int k = block->nbrTransaction-1; k < i; k++){
+      transactionList[k] = malloc(sizeof(char)*TRANSACTION_SIZE);
       strcpy(transactionList[k],TurnChar(block->transaction,block->nbrTransaction-1));
+      calculHash(transactionList[k],transactionList[k]);
     }
   }
 
-  strcpy(Root,calculmarkleTree(transactionList,i,0,q,(i+(i%2))/2,0));
+  strcpy(Root,calculmarkleTree(transactionList,i,0,q));
   deleteQueue(&q);
   return Root;//calculmarkleTree(transactionList,i,0,q,(i+(i%2))/2,0);
 }

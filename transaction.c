@@ -63,9 +63,9 @@ char *TurnChar(Transaction **t, int i){
     return "Source CoinBase-Destination Creator, quantite: 50bnb";
   }
   char *temp = malloc(sizeof(int));
-  char *transac = malloc(50);
+  char *transac = malloc(sizeof(char)*50);
   sprintf(temp, "%d",t[i]->Emeteur);
-  strcat(transac,"Source user");
+  strcpy(transac,"Source user");
   strcat(transac,temp);
   strcat(transac,"-Destination user");
   sprintf(temp, "%d",t[i]->Recepteur);

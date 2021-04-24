@@ -18,7 +18,6 @@ dfunc para documentacion de funciones
 #include <string.h>
 #include "sha256.h"
 #include "sha256_utils.h"
-#include "miner.h"
 #include "mine.h"
 #include "BlockChain.h"
 #include "transaction.h"
