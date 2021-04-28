@@ -68,12 +68,9 @@ int main(int argc, char **argv){
         fprintf(stderr, "Error: %s [OPTION] [INTEGER]\n",argv[0]);
         return 1;
       }
-    }if (argc > 7){
-      fprintf(stderr, "Error: %s [OPTION] [INTEGER]\n",argv[0]);
-      return 1;
     }
   }
-  printf("Les options sont :\n\tDificulte = %d\n\tNombre Max de blocks = %d\n\tNombre max de transaction = %d\n\n",d,n,t);
+  printf("Les options sont :\n\tDificulte = %d\n\tNombre max de blocks = %d\n\tNombre max de transaction = %d\n\n",d,n,t);
   f = createBlockChain(d,t);
   for(int k = 0; k < blockchainSize(f); k++){
     printf("This is transaction %d : %s\n", k, BlockTransaction(f,k));

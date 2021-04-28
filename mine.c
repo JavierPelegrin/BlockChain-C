@@ -27,6 +27,9 @@ void createHash(Block *block){
   nonce = malloc(sizeof(int));
   index = malloc(sizeof(int));
 
+  if (block->index ==4)
+    printf("source: %d\n", block->transaction[4]->Emeteur);
+
   sprintf(nbrTransaction, "%d",block->nbrTransaction); // cast pour convertir integer to string
 	strcpy(item,nbrTransaction);
 	sprintf(nonce, "%ld",block->nonce);
@@ -121,8 +124,8 @@ char *calculmerkleRoot(Block *block){
   double buff;
   char *Root = malloc(SHA256_BLOCK_SIZE*2+1);
   q = createQueue();
-  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0){ // logaritomo de base 2
-    while (modf(log(i)/log(2),&buff) > 0){ // logaritomo de base 2
+  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0){
+    while (modf(log(i)/log(2),&buff) > 0){
       i++;
     }
   }
@@ -135,15 +138,15 @@ char *calculmerkleRoot(Block *block){
     strcpy(transactionList[k], TurnChar(block->transaction,k));
     calculHash(transactionList[k],transactionList[k]);
   }
-  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0 || block->nbrTransaction == 1){ // logaritomo de base 2
+  if (modf(log(block->nbrTransaction)/log(2),&buff) > 0 || block->nbrTransaction == 1){
     for(int k = block->nbrTransaction-1; k < i; k++){
       transactionList[k] = malloc(sizeof(char)*(SHA256_BLOCK_SIZE*2+1));
       strcpy(transactionList[k],TurnChar(block->transaction,block->nbrTransaction-1));
       calculHash(transactionList[k],transactionList[k]);
     }
   }
-
   strcpy(Root,calculmarkleTree(transactionList,i,0,q));
+  free(*transactionList);
   deleteQueue(&q);
-  return Root;//calculmarkleTree(transactionList,i,0,q,(i+(i%2))/2,0);
+  return Root;
 }

@@ -4,7 +4,12 @@
 #include "sha256_utils.h"
 
 #define TRANSACTION_SIZE 53
-
+struct s_Transaction{
+  char *timestamp;
+  int Emeteur;
+  int Recepteur;
+  int montant;
+};
 typedef struct s_Transaction Transaction;
 
 typedef struct s_Block {
