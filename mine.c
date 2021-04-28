@@ -27,8 +27,6 @@ void createHash(Block *block){
   nonce = malloc(sizeof(int));
   index = malloc(sizeof(int));
 
-  if (block->index ==4)
-    printf("source: %d\n", block->transaction[4]->Emeteur);
 
   sprintf(nbrTransaction, "%d",block->nbrTransaction); // cast pour convertir integer to string
 	strcpy(item,nbrTransaction);

@@ -17,7 +17,12 @@
   transactions
 */
 
-
+struct s_Transaction{
+  char *timestamp;
+  int Emeteur;
+  int Recepteur;
+  int montant;
+};
 
 void create1Transaction(Block *t, int i){
   t->transaction[i] = malloc(sizeof(Transaction));
@@ -39,9 +44,7 @@ void createNTransaction(Block *b){
     }
   }else{
     for(i = 0; i < b->nbrTransaction; i++){
-      printf("%d\n", i);
       create1Transaction(b, i);
-      printf("source: %d\n",b->transaction[i]->Emeteur );
     }
   }
 }

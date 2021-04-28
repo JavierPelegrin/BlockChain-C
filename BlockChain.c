@@ -42,7 +42,7 @@ BlockChain *createBlockChain(int Dificulty,int nbrTransactionMax){
   block.index = 0;
   block.timestamp = getTimeStamp();
   block.nbrTransaction = (rand() % nbrTransactionMax)+1;
-  block.transaction = malloc(nbrTransactionMax);
+  block.transaction = malloc(nbrTransactionMax*S_TRANSACTION_SIZE);
   createGenesisT(&block);
   createNTransaction(&block);
   strcpy(block.merkleRoot,calculmerkleRoot(&block));
@@ -65,12 +65,9 @@ void createBlock(BlockChain *blockChain, int nbrTransactionMax){
   blockChain->size++;
   block.timestamp = getTimeStamp();
   block.nbrTransaction = (rand() % nbrTransactionMax)+1;
-  printf("%d, %d\n", block.nbrTransaction, block.index);
   strcpy(block.hashPrev, lastBlock.hash);
-  block.transaction = malloc(nbrTransactionMax*sizeof(Transaction));
+  block.transaction = malloc(nbrTransactionMax*S_TRANSACTION_SIZE);
   createNTransaction(&block);
-  if (block.index ==4)
-    printf("source: %d\n", block.transaction[4]->Emeteur);
   strcpy(block.merkleRoot,calculmerkleRoot(&block));
   mineBlock(&block,blockChain->Dificulty);
   blockChain->block[block.index] = block;
