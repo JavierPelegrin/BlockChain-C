@@ -16,6 +16,7 @@ dfunc para documentacion de funciones
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "sha256.h"
 #include "sha256_utils.h"
 #include "mine.h"
@@ -23,6 +24,8 @@ dfunc para documentacion de funciones
 #include "transaction.h"
 
 int main(int argc, char **argv){
+  srand(time(NULL));
+
   BlockChain *f;
   int d, n, t;
   float recompense = RECOMPENSE;
@@ -76,7 +79,7 @@ int main(int argc, char **argv){
   f = createBlockChain(d,t);
   recompense = aleatMiner(recompense,indexLastBlock(f));
   for(int k = 0; k < blockNbrTransactions(f); k++){
-    printf("This is transaction %d : %s\n", k, BlockTransaction(f,k));
+    printf("This is transaction %d : %s\n", k+1, BlockTransaction(f,k));
   }
   printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
   printf("Block Genesis: %s\n\n", blockHash(f));

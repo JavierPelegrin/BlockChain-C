@@ -60,7 +60,7 @@ void createGenesisT(Block **t){
 
 char *TurnChar(Transaction **t, int i){
   if (t[i]->Emeteur == -1){
-    return "Source CoinBase-Destination Creator, quantite: 50bnb";
+    return "Source CoinBase-Destination user1(Creator), quantite: 50bnb";
   }
   char *temp = malloc(sizeof(int));
   char *transac = malloc(sizeof(char)*50);
@@ -80,7 +80,7 @@ char *TurnChar(Transaction **t, int i){
 
 float aleatMiner(float recompense, int indexBlock){
   indexBlock++;
-  printf("Le miner %d a miner le block, recompence: %f\n",rand()%100,recompense);
+  printf("Le miner %d a miner le block, recompense: %f\n",rand()%100,recompense);
   recompense = recompense/((indexBlock%25 == 0)+1);
   return recompense;
 }
