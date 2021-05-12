@@ -15,7 +15,9 @@
 struct s_BlockChain {
   int Dificulty;
   int size;
-  Block block[BLOCKCHAIN_SIZE_MAX];
+  int nbrTransaction;
+  Block *Genesis;
+  Block *lastBlock;
 };
 
 
@@ -36,19 +38,23 @@ char *getTimeStamp(){
 */
 BlockChain *createBlockChain(int Dificulty,int nbrTransactionMax){
   BlockChain *blockChain = malloc(sizeof(BlockChain));
-  Block block;
+  Block *block = malloc(sizeof(Block));
   blockChain->Dificulty = Dificulty;
   blockChain->size = 1;
-  block.index = 0;
-  block.timestamp = getTimeStamp();
-  block.nbrTransaction = (rand() % nbrTransactionMax)+1;
-  block.transaction = malloc(nbrTransactionMax*S_TRANSACTION_SIZE);
+  blockChain->nbrTransaction = nbrTransactionMax;
+  block->index = 0;
+  block->timestamp = getTimeStamp();
+  block->nbrTransaction = (rand() % nbrTransactionMax)+1;
+  block->transaction = malloc(nbrTransactionMax*S_TRANSACTION_SIZE);
   createGenesisT(&block);
   createNTransaction(&block);
-  strcpy(block.merkleRoot,calculmerkleRoot(&block));
+  strcpy(block->merkleRoot,calculmerkleRoot(block));
   mineBlock(&block,blockChain->Dificulty);
-  strcpy(block.hashPrev,block.hash);
-  blockChain->block[0] = block;
+  strcpy(block->hashPrev,block->hash);
+  block->next = NULL;
+  block->prev = NULL;
+  blockChain->Genesis = block;
+  blockChain->lastBlock = block;
   return blockChain;
 }
 
@@ -58,19 +64,22 @@ BlockChain *createBlockChain(int Dificulty,int nbrTransactionMax){
    \param "BlockChain"
    \post "le hash du block a un nombre de 0 au debut egale a DIFICULTY"
 */
-void createBlock(BlockChain *blockChain, int nbrTransactionMax){
-  Block block, lastBlock;
-  lastBlock = blockFirst(blockChain);
-  block.index = blockChain->size;
+void createBlock(BlockChain *blockChain){
+  Block *block = malloc(sizeof(Block));
+  block->index = blockChain->size;
   blockChain->size++;
-  block.timestamp = getTimeStamp();
-  block.nbrTransaction = (rand() % nbrTransactionMax)+1;
-  strcpy(block.hashPrev, lastBlock.hash);
-  block.transaction = malloc(nbrTransactionMax*S_TRANSACTION_SIZE);
+  block->timestamp = getTimeStamp();
+  block->nbrTransaction = (rand() % blockChain->nbrTransaction)+1;
+  strcpy(block->hashPrev, blockChain->lastBlock->hash);
+  block->transaction = malloc(blockChain->nbrTransaction*S_TRANSACTION_SIZE);
   createNTransaction(&block);
-  strcpy(block.merkleRoot,calculmerkleRoot(&block));
+  strcpy(block->merkleRoot,calculmerkleRoot(block));
   mineBlock(&block,blockChain->Dificulty);
-  blockChain->block[block.index] = block;
+  
+  blockChain->lastBlock->next = block;
+  block->prev = blockChain->lastBlock;
+  block->next = NULL;
+  blockChain->lastBlock = block;
 }
 
 /*!
@@ -92,23 +101,31 @@ void removeBlock(BlockChain *blockChain, int position){
 }
 
 
-Block blockFirst(BlockChain *blockChain){
-  return blockChain->block[blockChain->size-1];
+Block *blockFirst(BlockChain *blockChain){
+  return blockChain->lastBlock;
 }
 
 int blockchainSize(BlockChain *blockChain){
-  return blockChain->block[blockChain->size-1].nbrTransaction;
+  return blockChain->size;
+}
+
+int blockNbrTransactions(BlockChain * blockChain){
+  return blockChain->lastBlock->nbrTransaction;
+}
+
+int indexLastBlock(BlockChain *blockChain){
+  return blockChain->lastBlock->index;
 }
 
 char *blockHash(BlockChain *blockChain){
-  printf("This is nonce number: %ld\n", blockChain->block[blockChain->size-1].nonce);
-  return blockChain->block[blockChain->size-1].hash;
+  printf("This is nonce number: %ld\n", blockChain->lastBlock->nonce);
+  return blockChain->lastBlock->hash;
 }
 
 char *BlockMerkleRoot(BlockChain *blockChain){
-  return blockChain->block[blockChain->size-1].merkleRoot;
+  return blockChain->lastBlock->merkleRoot;
 }
 
 char *BlockTransaction(BlockChain *blockChain, int i){
-  return TurnChar(blockChain->block[blockChain->size-1].transaction,i);
+  return TurnChar(blockChain->lastBlock->transaction,i);
 }

@@ -17,16 +17,19 @@ typedef struct s_Block {
   char merkleRoot[SHA256_BLOCK_SIZE*2+1];
   char hash[SHA256_BLOCK_SIZE*2+1];
   long int nonce;
+  struct s_Block *next;
+  struct s_Block *prev;
 } Block;
 
 
-void createGenesisT(Block *b);
+void createGenesisT(Block **b);
 
-void create1Transaction(Block *b,int i);
+void create1Transaction(Block **b,int i);
 
-void createNTransaction(Block *b);
+void createNTransaction(Block **b);
 
 char *TurnChar(Transaction **t, int i);
 
+float aleatMiner(float reconpense, int indexBlock);
 
 #endif

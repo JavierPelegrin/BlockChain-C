@@ -8,11 +8,11 @@
 
 void calculHash(char hash[SHA256_BLOCK_SIZE*2+1], char *infos);
 
-void createHash(Block *block);
+void createHash(Block **block);
 
 bool verifieHash(char *hash, int d);
 
-void mineBlock(Block *block, int Dificulty);
+void mineBlock(Block **block, int Dificulty);
 
 // void testMerkleTreeFunction();
 

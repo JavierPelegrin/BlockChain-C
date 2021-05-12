@@ -24,37 +24,37 @@ struct s_Transaction{
   int montant;
 };
 
-void create1Transaction(Block *t, int i){
-  t->transaction[i] = malloc(sizeof(Transaction));
-  t->transaction[i]->Emeteur = (rand() % 100);
-  t->transaction[i]->Recepteur = (rand() % 100);
-  while (t->transaction[i]->Emeteur == t->transaction[i]->Recepteur){
-    t->transaction[i]->Recepteur = (rand() % 100);
+void create1Transaction(Block **b, int i){
+  (*b)->transaction[i] = malloc(sizeof(Transaction));
+  (*b)->transaction[i]->Emeteur = (rand() % 100);
+  (*b)->transaction[i]->Recepteur = (rand() % 100);
+  while ((*b)->transaction[i]->Emeteur == (*b)->transaction[i]->Recepteur){
+    (*b)->transaction[i]->Recepteur = (rand() % 100);
   }
-  t->transaction[i]->timestamp = getTimeStamp();
-  t->transaction[i]->montant = (rand() % 50)+1;
+  (*b)->transaction[i]->timestamp = getTimeStamp();
+  (*b)->transaction[i]->montant = (rand() % 50)+1;
 }
 
-void createNTransaction(Block *b){
+void createNTransaction(Block **b){
   int i;
-  if(b->index == 0){
-    for(i = 1; i < b->nbrTransaction; i++){
+  if((*b)->index == 0){
+    for(i = 1; i < (*b)->nbrTransaction; i++){
 
       create1Transaction(b, i);
     }
   }else{
-    for(i = 0; i < b->nbrTransaction; i++){
+    for(i = 0; i < (*b)->nbrTransaction; i++){
       create1Transaction(b, i);
     }
   }
 }
 
-void createGenesisT(Block *t){
-  t->transaction[0] = malloc(sizeof(Transaction));
-  t->transaction[0]->Emeteur = -1;
-  t->transaction[0]->Recepteur = 0;
-  t->transaction[0]->montant = 50;
-  t->transaction[0]->timestamp = getTimeStamp();
+void createGenesisT(Block **t){
+  (*t)->transaction[0] = malloc(sizeof(Transaction));
+  (*t)->transaction[0]->Emeteur = -1;
+  (*t)->transaction[0]->Recepteur = 0;
+  (*t)->transaction[0]->montant = 50;
+  (*t)->transaction[0]->timestamp = getTimeStamp();
 }
 
 
@@ -76,4 +76,11 @@ char *TurnChar(Transaction **t, int i){
   strcat(transac,"bnb");
   free(temp);
   return transac;
+}
+
+float aleatMiner(float recompense, int indexBlock){
+  indexBlock++;
+  printf("Le miner %d a miner le block, recompence: %f\n",rand()%100,recompense);
+  recompense = recompense/((indexBlock%25 == 0)+1);
+  return recompense;
 }

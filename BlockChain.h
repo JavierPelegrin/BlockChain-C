@@ -10,7 +10,8 @@
 #include "sha256_utils.h"
 #include "transaction.h"
 
-#define BLOCKCHAIN_SIZE_MAX 10000
+#define BLOCKCHAIN_SIZE_MAX 1000
+#define RECOMPENSE 50
 
 typedef struct s_BlockChain BlockChain;
 
@@ -18,16 +19,20 @@ char * getTimeStamp();
 
 BlockChain *createBlockChain(int Dificulty, int nbrTransactionMax);
 
-void createBlock(BlockChain *blockChain, int nbrTransactionMax);
+void createBlock(BlockChain *blockChain);
 
 /*
   pas fait encore
 */
 void removeBlock(BlockChain *blockChain, int position);
 
-Block blockFirst(BlockChain *blockChain);
+Block *blockFirst(BlockChain *blockChain);
 
 int blockchainSize(BlockChain *blockChain);
+
+int blockNbrTransactions(BlockChain *blocChain);
+
+int indexLastBlock(BlockChain *blockChain);
 
 char *blockHash(BlockChain *blockChain);
 

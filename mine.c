@@ -20,26 +20,26 @@ void calculHash(char hash[SHA256_BLOCK_SIZE*2+1], char *infos){
   free(item);
 }
 
-void createHash(Block *block){
+void createHash(Block **block){
   char *item, *nbrTransaction, *nonce, *index;
-  item = malloc(sizeof(Block)*sizeof(char)+(TRANSACTION_SIZE * block->nbrTransaction));
+  item = malloc(sizeof((*block)->timestamp)+sizeof(int)+((SHA256_BLOCK_SIZE*2+1)*2)+sizeof(long int)+sizeof(char)*(TRANSACTION_SIZE * (*block)->nbrTransaction));
   nbrTransaction = malloc(sizeof(int));
   nonce = malloc(sizeof(int));
   index = malloc(sizeof(int));
 
 
-  sprintf(nbrTransaction, "%d",block->nbrTransaction); // cast pour convertir integer to string
+  sprintf(nbrTransaction, "%d",(*block)->nbrTransaction); // cast pour convertir integer to string
 	strcpy(item,nbrTransaction);
-	sprintf(nonce, "%ld",block->nonce);
+	sprintf(nonce, "%ld",(*block)->nonce);
 	strcat(item,nonce);
-  sprintf(index,"%d",block->index);
+  sprintf(index,"%d",(*block)->index);
   strcat(item,index);
-	strcat(item,block->timestamp);
-  for(int i = 0; i < block->nbrTransaction; i++){
-    strcat(item,TurnChar(block->transaction, i));
+	strcat(item,(*block)->timestamp);
+  for(int i = 0; i < (*block)->nbrTransaction; i++){
+    strcat(item,TurnChar((*block)->transaction, i));
   }
-  strcat(item,block->merkleRoot);
-  sha256ofString((BYTE *)item,block->hash);
+  strcat(item,(*block)->merkleRoot);
+  sha256ofString((BYTE *)item,(*block)->hash);
   free(item);free(nbrTransaction);free(nonce);free(index);
 }
 
@@ -54,12 +54,12 @@ bool verifieHash(char *hash, int d){
   return strcmp(at,Dificulty);
 }
 
-void mineBlock(Block *block, int Dificulty){
-  block->nonce = -1;
+void mineBlock(Block **block, int Dificulty){
+  (*block)->nonce = -1;
   do {
-    block->nonce++;
+    (*block)->nonce++;
     createHash(block);
-  } while(verifieHash(block->hash,Dificulty));
+  } while(verifieHash((*block)->hash,Dificulty));
 }
 
 char *calculmarkleTree(char **transactionList, int imaxl, int il, Queue *q){

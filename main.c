@@ -25,8 +25,9 @@ dfunc para documentacion de funciones
 int main(int argc, char **argv){
   BlockChain *f;
   int d, n, t;
+  float recompense = RECOMPENSE;
   d = 4;
-  n = 1000;
+  n = BLOCKCHAIN_SIZE_MAX;
   t = 5;
   // testMerkleTreeFunction();
   if(argc > 1){
@@ -70,21 +71,24 @@ int main(int argc, char **argv){
       }
     }
   }
+
   printf("Les options sont :\n\tDificulte = %d\n\tNombre max de blocks = %d\n\tNombre max de transaction = %d\n\n",d,n,t);
   f = createBlockChain(d,t);
-  for(int k = 0; k < blockchainSize(f); k++){
+  recompense = aleatMiner(recompense,indexLastBlock(f));
+  for(int k = 0; k < blockNbrTransactions(f); k++){
     printf("This is transaction %d : %s\n", k, BlockTransaction(f,k));
   }
   printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
   printf("Block Genesis: %s\n\n", blockHash(f));
-
+  
   for(int i = 0; i < n; i++){
-    createBlock(f,t);
-    for(int k = 0; k < blockchainSize(f); k++){
+    createBlock(f);
+    recompense = aleatMiner(recompense,indexLastBlock(f));
+    for(int k = 0; k < blockNbrTransactions(f); k++){
       printf("This is transaction %d : %s\n", k+1, BlockTransaction(f,k));
     }
     printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
-    printf("Block %d: %s\n\n",i,blockHash(f));
+    printf("Block %d: %s\n\n",i+1,blockHash(f));
   }
   return 0;
 }
