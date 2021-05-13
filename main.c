@@ -81,9 +81,8 @@ int main(int argc, char **argv){
   for(int k = 0; k < blockNbrTransactions(f); k++){
     printf("This is transaction %d : %s\n", k+1, BlockTransaction(f,k));
   }
-  printf("This is BlockMerkleRoot of the block:\n\t %s\n",BlockMerkleRoot(f));
   printf("Block Genesis: %s\n\n", blockHash(f));
-  
+
   for(int i = 0; i < n; i++){
     createBlock(f);
     recompense = aleatMiner(recompense,indexLastBlock(f));

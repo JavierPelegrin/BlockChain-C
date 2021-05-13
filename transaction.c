@@ -37,15 +37,8 @@ void create1Transaction(Block **b, int i){
 
 void createNTransaction(Block **b){
   int i;
-  if((*b)->index == 0){
-    for(i = 1; i < (*b)->nbrTransaction; i++){
-
-      create1Transaction(b, i);
-    }
-  }else{
-    for(i = 0; i < (*b)->nbrTransaction; i++){
-      create1Transaction(b, i);
-    }
+  for(i = 0; i < (*b)->nbrTransaction; i++){
+    create1Transaction(b, i);
   }
 }
 
@@ -57,10 +50,9 @@ void createGenesisT(Block **t){
   (*t)->transaction[0]->timestamp = getTimeStamp();
 }
 
-
 char *TurnChar(Transaction **t, int i){
   if (t[i]->Emeteur == -1){
-    return "Source CoinBase-Destination user1(Creator), quantite: 50bnb";
+    return "Genesis";
   }
   char *temp = malloc(sizeof(int));
   char *transac = malloc(sizeof(char)*50);
@@ -79,8 +71,13 @@ char *TurnChar(Transaction **t, int i){
 }
 
 float aleatMiner(float recompense, int indexBlock){
+  int miner = rand()%100;
+  if (indexBlock == 0 || miner == 0){
+    printf("Le miner Creator a mine le block, coinBase recompense: %f\n",recompense );
+  }else{
+    printf("Le miner %d a mine le block, coinBase recompense: %f\n",rand()%100,recompense);
+  }
   indexBlock++;
-  printf("Le miner %d a miner le block, recompense: %f\n",rand()%100,recompense);
   recompense = recompense/((indexBlock%25 == 0)+1);
   return recompense;
 }
