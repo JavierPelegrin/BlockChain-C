@@ -35,6 +35,7 @@ void createHash(Block **block){
   sprintf(index,"%d",(*block)->index);
   strcat(item,index);
 	strcat(item,(*block)->timestamp);
+  strcat(item,(*block)->hashPrev);
   for(int i = 0; i < (*block)->nbrTransaction; i++){
     strcat(item,TurnChar((*block)->transaction, i));
   }
