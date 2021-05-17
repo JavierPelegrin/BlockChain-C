@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <time.h>
 #include <math.h>
+#include <stdbool.h>
 
 #include "queue.h"
 #include "BlockChain.h"
