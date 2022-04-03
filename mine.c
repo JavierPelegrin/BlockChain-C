@@ -49,11 +49,14 @@ bool verifieHash(char *hash, int d){
   char at[d];
   char Dificulty[d];
   int i;
-  for(i = 0; i < d; i++){
-    at[i] = hash[i];
-    Dificulty[i] = '0';
+  if (d > 0){
+    strncpy(Dificulty,"0",d);
+    strncpy(at,hash,d);
   }
-  return strcmp(at,Dificulty);
+  for(i = 1; i < d; i++){
+     Dificulty[i] = '0';
+  }
+  return strncmp(at,Dificulty,d);
 }
 
 void mineBlock(Block **block, int Dificulty){

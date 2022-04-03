@@ -24,7 +24,7 @@ dfunc para documentacion de funciones
 #include "transaction.h"
 
 int main(int argc, char **argv){
-  srand(time(NULL));
+  // srand(time(NULL));
 
   BlockChain *f;
   int d, n, t;
